@@ -1,0 +1,318 @@
+import { Creature } from '../models/Card';
+
+export const creatures: Omit<Creature, 'hp' | 'canAttack' | 'equipment'>[] = [
+  // Communes (1-3 mana) - 10 cartes
+  {
+    id: 'creature_1',
+    name: 'Ti-Koulèr',
+    type: 'creature',
+    manaCost: 1,
+    maxHp: 2,
+    attack: 1,
+    defense: 1,
+    rarity: 'common',
+    tribe: 'villager',
+    description: 'Petit mais rapide'
+  },
+  {
+    id: 'creature_2',
+    name: 'Zanfan Lari',
+    type: 'creature',
+    manaCost: 1,
+    maxHp: 1,
+    attack: 2,
+    defense: 1,
+    rarity: 'common',
+    tribe: 'villager',
+    description: 'Défenseur de quartier'
+  },
+  {
+    id: 'creature_3',
+    name: 'Pêcheur Lontan',
+    type: 'creature',
+    manaCost: 2,
+    maxHp: 2,
+    attack: 2,
+    defense: 2,
+    rarity: 'common',
+    tribe: 'fisher',
+    description: 'Marin expérimenté'
+  },
+  {
+    id: 'creature_4',
+    name: 'Marchand Bazar',
+    type: 'creature',
+    manaCost: 2,
+    maxHp: 1,
+    attack: 1,
+    defense: 3,
+    rarity: 'common',
+    tribe: 'merchant',
+    description: 'Commerce avisé'
+  },
+  {
+    id: 'creature_5',
+    name: 'Gardien Karo',
+    type: 'creature',
+    manaCost: 3,
+    maxHp: 3,
+    attack: 3,
+    defense: 2,
+    rarity: 'common',
+    tribe: 'warrior',
+    description: 'Protecteur du village'
+  },
+  {
+    id: 'creature_6',
+    name: 'Fermier Canne',
+    type: 'creature',
+    manaCost: 2,
+    maxHp: 3,
+    attack: 1,
+    defense: 2,
+    rarity: 'common',
+    tribe: 'farmer',
+    description: 'Travailleur des champs'
+  },
+  {
+    id: 'creature_7',
+    name: 'Voleur Marché',
+    type: 'creature',
+    manaCost: 1,
+    maxHp: 1,
+    attack: 3,
+    defense: 0,
+    rarity: 'common',
+    tribe: 'rogue',
+    description: 'Rapide mais fragile'
+  },
+  {
+    id: 'creature_8',
+    name: 'Bébé Dodo',
+    type: 'creature',
+    manaCost: 2,
+    maxHp: 2,
+    attack: 1,
+    defense: 2,
+    rarity: 'common',
+    tribe: 'beast',
+    description: 'Espèce protégée'
+  },
+  {
+    id: 'creature_9',
+    name: 'Singe Montagne',
+    type: 'creature',
+    manaCost: 1,
+    maxHp: 2,
+    attack: 1,
+    defense: 1,
+    rarity: 'common',
+    tribe: 'beast',
+    description: 'Agile et joueur'
+  },
+  {
+    id: 'creature_10',
+    name: 'Crabe Plage',
+    type: 'creature',
+    manaCost: 1,
+    maxHp: 1,
+    attack: 1,
+    defense: 2,
+    rarity: 'common',
+    tribe: 'beast',
+    description: 'Petite carapace solide'
+  },
+
+  // Rares (4-5 mana) - 8 cartes
+  {
+    id: 'creature_11',
+    name: 'Chasseur Montagne',
+    type: 'creature',
+    manaCost: 4,
+    maxHp: 4,
+    attack: 3,
+    defense: 3,
+    rarity: 'rare',
+    tribe: 'hunter',
+    description: 'Traqueur des hauts'
+  },
+  {
+    id: 'creature_12',
+    name: 'Danseur Séga',
+    type: 'creature',
+    manaCost: 4,
+    maxHp: 3,
+    attack: 4,
+    defense: 2,
+    rarity: 'rare',
+    tribe: 'bard',
+    abilities: ['Inspire les alliés: +1 attaque'],
+    description: 'Artiste inspirant'
+  },
+  {
+    id: 'creature_13',
+    name: 'Pirogue Rapide',
+    type: 'creature',
+    manaCost: 5,
+    maxHp: 5,
+    attack: 2,
+    defense: 3,
+    rarity: 'rare',
+    tribe: 'vessel',
+    abilities: ['Navigation agile'],
+    description: 'Embarcation traditionnelle'
+  },
+  {
+    id: 'creature_14',
+    name: 'Tisserand Bambou',
+    type: 'creature',
+    manaCost: 5,
+    maxHp: 3,
+    attack: 3,
+    defense: 5,
+    rarity: 'rare',
+    tribe: 'artisan',
+    description: 'Artisan résistant'
+  },
+  {
+    id: 'creature_15',
+    name: 'Pêcheur Requin',
+    type: 'creature',
+    manaCost: 4,
+    maxHp: 5,
+    attack: 4,
+    defense: 2,
+    rarity: 'rare',
+    tribe: 'fisher',
+    description: 'Brave chasseur des mers'
+  },
+  {
+    id: 'creature_16',
+    name: 'Forgeron Village',
+    type: 'creature',
+    manaCost: 4,
+    maxHp: 4,
+    attack: 3,
+    defense: 4,
+    rarity: 'rare',
+    tribe: 'artisan',
+    description: 'Créateur d\'armes'
+  },
+  {
+    id: 'creature_17',
+    name: 'Guérisseur Herbes',
+    type: 'creature',
+    manaCost: 5,
+    maxHp: 3,
+    attack: 2,
+    defense: 3,
+    rarity: 'rare',
+    tribe: 'healer',
+    abilities: ['Soigne 1 HP aux alliés chaque tour'],
+    description: 'Connaisseur de plantes médicinales'
+  },
+  {
+    id: 'creature_18',
+    name: 'Dodo Adulte',
+    type: 'creature',
+    manaCost: 4,
+    maxHp: 6,
+    attack: 3,
+    defense: 3,
+    rarity: 'rare',
+    tribe: 'beast',
+    description: 'Symbole de Maurice'
+  },
+
+  // Épiques (6-7 mana) - 5 cartes
+  {
+    id: 'creature_19',
+    name: 'Esprit Forêt',
+    type: 'creature',
+    manaCost: 6,
+    maxHp: 5,
+    attack: 5,
+    defense: 4,
+    rarity: 'epic',
+    tribe: 'spirit',
+    abilities: ['Régénération: +1 HP par tour'],
+    description: 'Gardien ancestral de la nature'
+  },
+  {
+    id: 'creature_20',
+    name: 'Guerrier Marron',
+    type: 'creature',
+    manaCost: 6,
+    maxHp: 6,
+    attack: 6,
+    defense: 3,
+    rarity: 'epic',
+    tribe: 'warrior',
+    description: 'Combattant de la liberté'
+  },
+  {
+    id: 'creature_21',
+    name: 'Chamane Kreol',
+    type: 'creature',
+    manaCost: 7,
+    maxHp: 4,
+    attack: 6,
+    defense: 5,
+    rarity: 'epic',
+    tribe: 'shaman',
+    abilities: ['Soigne 2 HP aux alliés chaque tour'],
+    description: 'Maître des rituels anciens'
+  },
+  {
+    id: 'creature_22',
+    name: 'Capitaine Corsaire',
+    type: 'creature',
+    manaCost: 7,
+    maxHp: 7,
+    attack: 5,
+    defense: 4,
+    rarity: 'epic',
+    tribe: 'pirate',
+    description: 'Terreur des mers'
+  },
+  {
+    id: 'creature_23',
+    name: 'Tortue Géante',
+    type: 'creature',
+    manaCost: 6,
+    maxHp: 8,
+    attack: 3,
+    defense: 7,
+    rarity: 'epic',
+    tribe: 'beast',
+    description: 'Ancienne créature marine'
+  },
+
+  // Légendaires (8-10 mana) - 2 cartes
+  {
+    id: 'creature_24',
+    name: 'Dragon Volcan',
+    type: 'creature',
+    manaCost: 9,
+    maxHp: 9,
+    attack: 7,
+    defense: 6,
+    rarity: 'legendary',
+    tribe: 'dragon',
+    abilities: ['Souffle de feu: 2 dégâts à tous les ennemis au début du tour'],
+    description: 'Gardien du volcan de Trou aux Cerfs'
+  },
+  {
+    id: 'creature_25',
+    name: 'Reine des Mers',
+    type: 'creature',
+    manaCost: 8,
+    maxHp: 7,
+    attack: 8,
+    defense: 7,
+    rarity: 'legendary',
+    tribe: 'elemental',
+    abilities: ['Contrôle des vagues: Réduit l\'attaque ennemie de 1'],
+    description: 'Souveraine de l\'océan Indien'
+  }
+];
