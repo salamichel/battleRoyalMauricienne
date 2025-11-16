@@ -3,6 +3,10 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { setupGameSocket } from './socket/gameSocket';
+import { firebaseService } from './database/firebase';
+
+// Initialize Firebase
+firebaseService.initialize();
 
 const app = express();
 const httpServer = createServer(app);

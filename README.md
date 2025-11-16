@@ -84,6 +84,7 @@ npm start
 ### 2. Lobby
 - Créez une nouvelle partie OU
 - Rejoignez une partie existante (max 9 joueurs)
+- Consultez le classement des meilleurs joueurs 🏆
 
 ### 3. Salle d'Attente
 - Attendez les autres joueurs (minimum 2 joueurs requis)
@@ -105,6 +106,12 @@ npm start
 - Attaque = max(0, Attaque_attaquant - Défense_cible)
 - Créatures ne peuvent pas attaquer le tour où elles sont invoquées
 - Dernier survivant gagne (ou joueur avec le plus de HP après 30 tours)
+
+### 6. Classement (Leaderboard)
+- Consultez le **Top 50 des meilleurs joueurs**
+- Visualisez vos statistiques : victoires, parties jouées, taux de victoire
+- Parcourez les **20 dernières parties** terminées
+- Voyez qui a gagné et quels héros ont été utilisés
 
 ## 🃏 Types de Cartes
 
@@ -238,6 +245,84 @@ docker-compose up --build
 - Les volumes Docker synchronisent automatiquement
 - Si nécessaire, reconstruisez: `docker-compose up --build`
 
+## 🔥 Firebase & Persistance
+
+### Configuration Firebase (Optionnel)
+
+Par défaut, le jeu utilise un stockage en mémoire (les données sont perdues au redémarrage). Pour activer la persistance avec Firebase Firestore :
+
+#### 1. Créer un Projet Firebase
+
+1. Allez sur [Firebase Console](https://console.firebase.google.com)
+2. Créez un nouveau projet
+3. Activez **Firestore Database** (mode production ou test)
+
+#### 2. Générer la Clé de Service
+
+1. Dans Firebase Console, allez dans **Paramètres du projet** (⚙️)
+2. Onglet **Comptes de service**
+3. Cliquez sur **Générer une nouvelle clé privée**
+4. Un fichier JSON sera téléchargé
+
+#### 3. Configurer l'Environnement
+
+**Option A: Variable d'environnement (Recommandé)**
+```bash
+# Créer un fichier .env à la racine
+echo 'FIREBASE_SERVICE_ACCOUNT=<contenu du JSON sur une ligne>' > .env
+```
+
+**Option B: Docker Compose**
+```yaml
+# Dans docker-compose.yml, ajouter sous backend > environment:
+- FIREBASE_SERVICE_ACCOUNT={"type":"service_account",...}
+```
+
+**Note importante**: Le JSON doit être sur une seule ligne. Remplacez les retours à la ligne par `\n` dans les clés privées.
+
+#### 4. Redémarrer l'Application
+```bash
+docker-compose down
+docker-compose up --build
+```
+
+### Fonctionnalités avec Firebase
+
+Une fois configuré, Firebase Firestore sauvegarde automatiquement :
+
+✅ **Statistiques des joueurs**
+- Nombre de parties jouées
+- Victoires et défaites
+- Taux de victoire
+- Héros favori
+- Dégâts totaux infligés
+
+✅ **Historique des parties**
+- 20 dernières parties terminées
+- Gagnant et participants
+- Durée et nombre de tours
+- Héros utilisés
+
+✅ **Classement (Leaderboard)**
+- Top 50 des meilleurs joueurs
+- Tri par victoires
+- Persistance des données entre sessions
+
+### Collections Firestore
+
+Le jeu crée automatiquement ces collections :
+
+- `player_stats` - Statistiques des joueurs
+- `game_history` - Historique des parties terminées
+
+### Mode Sans Firebase
+
+Sans configuration Firebase :
+- ✅ Le jeu fonctionne normalement
+- ✅ Classement disponible (en mémoire)
+- ⚠️ Données perdues au redémarrage
+- 💡 Idéal pour tests et développement
+
 ## 🎨 Personnalisation
 
 ### Thème de Couleurs
@@ -261,6 +346,8 @@ Modifier les constantes dans `backend/src/services/gameService.ts`:
 ### Événements Client → Serveur
 - `join_lobby` - Rejoindre le lobby
 - `get_heroes` - Obtenir la liste des héros
+- `get_leaderboard` - Obtenir le classement
+- `get_recent_games` - Obtenir les parties récentes
 - `create_game` - Créer une partie
 - `join_game` - Rejoindre une partie
 - `start_game` - Démarrer la partie
@@ -269,6 +356,8 @@ Modifier les constantes dans `backend/src/services/gameService.ts`:
 
 ### Événements Serveur → Client
 - `lobby_games` - Liste des parties disponibles
+- `leaderboard_data` - Données du classement
+- `recent_games_data` - Parties récentes
 - `game_created` - Partie créée
 - `player_joined` - Joueur a rejoint
 - `game_started` - Partie démarrée

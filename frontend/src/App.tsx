@@ -3,11 +3,12 @@ import { socketService } from './services/socketService';
 import { Game } from './types';
 import HeroSelection from './components/Lobby/HeroSelection';
 import Lobby from './components/Lobby/Lobby';
+import Leaderboard from './components/Lobby/Leaderboard';
 import WaitingRoom from './components/Lobby/WaitingRoom';
 import Board from './components/Game/Board';
 import GameOver from './components/Game/GameOver';
 
-type AppState = 'connecting' | 'hero_selection' | 'lobby' | 'waiting_room' | 'playing' | 'game_over';
+type AppState = 'connecting' | 'hero_selection' | 'lobby' | 'leaderboard' | 'waiting_room' | 'playing' | 'game_over';
 
 function App() {
   const [appState, setAppState] = useState<AppState>('connecting');
@@ -70,6 +71,14 @@ function App() {
     setAppState('lobby');
   };
 
+  const handleShowLeaderboard = () => {
+    setAppState('leaderboard');
+  };
+
+  const handleBackFromLeaderboard = () => {
+    setAppState('lobby');
+  };
+
   if (connectionError) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -111,8 +120,13 @@ function App() {
         heroId={heroId}
         onGameJoined={handleGameJoined}
         onGameCreated={handleGameCreated}
+        onShowLeaderboard={handleShowLeaderboard}
       />
     );
+  }
+
+  if (appState === 'leaderboard') {
+    return <Leaderboard onBack={handleBackFromLeaderboard} />;
   }
 
   if (appState === 'waiting_room') {

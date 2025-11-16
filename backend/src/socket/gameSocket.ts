@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { GameService } from '../services/gameService';
 import { PlayerService } from '../services/playerService';
+import { GameHistoryService } from '../services/gameHistoryService';
 import { heroes } from '../data/heroes';
 import { GameAction } from '../models/Card';
 
@@ -18,6 +19,30 @@ export function setupGameSocket(io: Server) {
     // Get heroes
     socket.on('get_heroes', () => {
       socket.emit('heroes_list', heroes);
+    });
+
+    // Get leaderboard
+    socket.on('get_leaderboard', async (data?: { limit?: number }) => {
+      try {
+        const limit = data?.limit || 10;
+        const topPlayers = await PlayerService.getTopPlayers(limit);
+        socket.emit('leaderboard_data', topPlayers);
+      } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+        socket.emit('leaderboard_error', 'Failed to fetch leaderboard');
+      }
+    });
+
+    // Get recent games
+    socket.on('get_recent_games', async (data?: { limit?: number }) => {
+      try {
+        const limit = data?.limit || 10;
+        const recentGames = await GameHistoryService.getRecentGames(limit);
+        socket.emit('recent_games_data', recentGames);
+      } catch (error) {
+        console.error('Error fetching recent games:', error);
+        socket.emit('recent_games_error', 'Failed to fetch recent games');
+      }
     });
 
     // Create game
@@ -190,7 +215,7 @@ export function setupGameSocket(io: Server) {
     });
 
     // Game action
-    socket.on('game_action', (data: { gameId: string; action: GameAction }) => {
+    socket.on('game_action', async (data: { gameId: string; action: GameAction }) => {
       try {
         const { gameId, action } = data;
         const game = GameService.getGame(gameId);
@@ -231,13 +256,21 @@ export function setupGameSocket(io: Server) {
         if (game.status === 'finished' && game.winner) {
           io.to(gameId).emit('game_ended', game);
 
+          // Save game to history
+          await GameHistoryService.saveGameToHistory(game);
+
           // Update stats for all players
-          game.players.forEach(p => {
+          for (const p of game.players) {
             const won = p.id === game.winner?.id;
-            PlayerService.updatePlayerStats(p.pseudo, won, 0, p.hero.id);
-          });
+            await PlayerService.updatePlayerStats(p.pseudo, won, 0, p.hero.id);
+          }
 
           console.log(`Game ${gameId} ended. Winner: ${game.winner.pseudo}`);
+
+          // Clean up game after 5 minutes
+          setTimeout(() => {
+            GameService.deleteGame(gameId);
+          }, 5 * 60 * 1000);
         }
       } catch (error) {
         console.error('Error processing action:', error);
@@ -246,10 +279,10 @@ export function setupGameSocket(io: Server) {
     });
 
     // Get player stats
-    socket.on('get_stats', (data: { pseudo: string }) => {
+    socket.on('get_stats', async (data: { pseudo: string }) => {
       try {
         const { pseudo } = data;
-        const stats = PlayerService.getPlayerStats(pseudo);
+        const stats = await PlayerService.getPlayerStats(pseudo);
         socket.emit('player_stats', stats);
       } catch (error) {
         console.error('Error getting stats:', error);

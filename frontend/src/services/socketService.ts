@@ -162,6 +162,32 @@ class SocketService {
     this.on('player_stats', callback);
   }
 
+  // Leaderboard methods
+  getLeaderboard(limit?: number) {
+    this.socket?.emit('get_leaderboard', { limit });
+  }
+
+  onLeaderboardData(callback: (leaderboard: PlayerStats[]) => void) {
+    this.on('leaderboard_data', callback);
+  }
+
+  onLeaderboardError(callback: (error: string) => void) {
+    this.on('leaderboard_error', callback);
+  }
+
+  // Recent games methods
+  getRecentGames(limit?: number) {
+    this.socket?.emit('get_recent_games', { limit });
+  }
+
+  onRecentGamesData(callback: (games: any[]) => void) {
+    this.on('recent_games_data', callback);
+  }
+
+  onRecentGamesError(callback: (error: string) => void) {
+    this.on('recent_games_error', callback);
+  }
+
   isConnected(): boolean {
     return this.socket?.connected || false;
   }

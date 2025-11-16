@@ -7,9 +7,10 @@ interface LobbyProps {
   heroId: string;
   onGameJoined: (gameId: string) => void;
   onGameCreated: (gameId: string) => void;
+  onShowLeaderboard: () => void;
 }
 
-const Lobby: React.FC<LobbyProps> = ({ pseudo, heroId, onGameJoined, onGameCreated }) => {
+const Lobby: React.FC<LobbyProps> = ({ pseudo, heroId, onGameJoined, onGameCreated, onShowLeaderboard }) => {
   const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState<string>('');
 
@@ -96,12 +97,18 @@ const Lobby: React.FC<LobbyProps> = ({ pseudo, heroId, onGameJoined, onGameCreat
           </div>
         )}
 
-        <div className="mb-8 flex justify-center">
+        <div className="mb-8 flex justify-center gap-4">
           <button
             onClick={handleCreateGame}
             className="px-8 py-4 bg-gradient-primary rounded-xl text-xl font-bold hover:scale-105 transition-transform shadow-lg shadow-purple-500/50"
           >
             ➕ Créer une Nouvelle Partie
+          </button>
+          <button
+            onClick={onShowLeaderboard}
+            className="px-8 py-4 bg-yellow-600 hover:bg-yellow-700 rounded-xl text-xl font-bold hover:scale-105 transition-transform shadow-lg shadow-yellow-500/50"
+          >
+            🏆 Classement
           </button>
         </div>
 
