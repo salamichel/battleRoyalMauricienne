@@ -6,7 +6,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3001:3001"
+      - "3011:3001"
     environment:
       - NODE_ENV=development
       - PORT=3001
@@ -25,7 +25,7 @@ services:
     ports:
       - "8060:3000"
     environment:
-      - REACT_APP_BACKEND_URL=http://localhost:3001
+      - REACT_APP_BACKEND_URL=http://localhost:3011
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
