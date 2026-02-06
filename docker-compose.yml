@@ -23,7 +23,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "8060:3000"
     environment:
       - REACT_APP_BACKEND_URL=http://localhost:3001
     volumes:
